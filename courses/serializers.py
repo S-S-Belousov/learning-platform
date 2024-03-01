@@ -12,7 +12,15 @@ class LessonSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['id', 'name', 'students']
+        fields = ['id', 'name', 'students', 'product', 'product_id']
+    
+    def create(self, validated_data):
+        product_id = validated_data.pop('product_id', None)
+        instance = super().create(validated_data)
+        if product_id is not None:
+            instance.product_id = product_id
+            instance.save()
+        return instance
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -39,10 +47,10 @@ class ProductStatsSerializer(serializers.ModelSerializer):
             ]
 
     def get_num_students(self, obj):
-        return obj.creator.student_set.count()
+        return obj.creator.groups_assigned.count()
 
     def get_group_fill_percentage(self, obj):
-        total_students = obj.creator.student_set.count()
+        total_students = obj.creator.groups_assigned.count()
         max_group_size = obj.max_group_size
         total_groups = obj.group_set.count()
         total_group_capacity = max_group_size * total_groups
@@ -50,7 +58,7 @@ class ProductStatsSerializer(serializers.ModelSerializer):
                 if total_group_capacity != 0 else 0)
 
     def get_product_purchase_percentage(self, obj):
-        total_users = obj.creator.student_set.count()
+        total_users = obj.creator.groups_assigned.count()
         access_count = obj.access_count()
         return (round(access_count / total_users * 100, 2)
                 if total_users != 0 else 0)

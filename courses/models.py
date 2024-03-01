@@ -36,10 +36,17 @@ class Product(models.Model):
                 ]
             group.students.set(students)
         groups[num_students:].delete()
+    
+    def access_count(self):
+        return self.group_set.aggregate(
+            total_students=models.Count(
+                'students', distinct=True
+                )
+                )['total_students']
 
 
 class Lesson(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=100)
     video_url = models.URLField()
 
@@ -48,7 +55,7 @@ class Lesson(models.Model):
 
 
 class Group(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=100)
     students = models.ManyToManyField(User, related_name='groups_assigned')
 

@@ -7,10 +7,10 @@ from courses.views import (GroupViewSet, LessonViewSet, LogoutView,
                            ProductStatsViewSet, ProductViewSet)
 
 router = routers.DefaultRouter()
-router.register(r'products', ProductViewSet)
-router.register(r'lessons', LessonViewSet)
-router.register(r'groups', GroupViewSet)
-router.register(r'stats', ProductStatsViewSet)
+router.register(r'products', ProductViewSet, basename='product')
+router.register(r'lessons', LessonViewSet, basename='lesson')
+router.register(r'groups', GroupViewSet, basename='group')
+router.register(r'stats', ProductStatsViewSet, basename='stats')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

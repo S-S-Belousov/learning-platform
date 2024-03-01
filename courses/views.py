@@ -34,6 +34,10 @@ class GroupViewSet(BaseViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
+    def perform_create(self, serializer):
+        product_id = self.request.data.get('product_id')
+        serializer.save(product_id=product_id)
+
 
 class LogoutView(APIView):
     def post(self, request):
