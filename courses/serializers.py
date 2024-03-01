@@ -12,8 +12,8 @@ class LessonSerializer(serializers.ModelSerializer):
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ['id', 'name', 'students', 'product', 'product_id']
-    
+        fields = ['id', 'name']
+
     def create(self, validated_data):
         product_id = validated_data.pop('product_id', None)
         instance = super().create(validated_data)

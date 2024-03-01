@@ -24,6 +24,14 @@ class ProductViewSet(BaseViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.distribute_users_to_groups()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.distribute_users_to_groups()
+
 
 class LessonViewSet(BaseViewSet):
     queryset = Lesson.objects.all()
