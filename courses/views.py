@@ -1,13 +1,12 @@
 from django.db.models import Count
-from rest_framework import viewsets
-
-from .models import Product, Lesson, Group
-from .serializers import ProductStatsSerializer,ProductSerializer, LessonSerializer, GroupSerializer
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Group, Lesson, Product
+from .serializers import (GroupSerializer, LessonSerializer, ProductSerializer,
+                          ProductStatsSerializer)
 
 
 class ProductStatsViewSet(viewsets.ReadOnlyModelViewSet):
@@ -39,4 +38,6 @@ class LogoutView(APIView):
             token.delete()
         except Token.DoesNotExist:
             pass
-        return Response({'message': 'Successfully logged out'}, status=status.HTTP_200_OK)
+        return Response(
+            {'message': 'Successfully logged out'}, status=status.HTTP_200_OK
+            )

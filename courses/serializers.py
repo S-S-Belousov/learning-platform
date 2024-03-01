@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import Product, Lesson, Group
+from .models import Group, Lesson, Product
 
 
 class LessonSerializer(serializers.ModelSerializer):
