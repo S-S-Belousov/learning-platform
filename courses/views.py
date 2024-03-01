@@ -16,17 +16,21 @@ class ProductStatsViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ProductStatsSerializer
 
 
-class ProductViewSet(viewsets.ModelViewSet):
+class BaseViewSet(viewsets.ModelViewSet):
+    pass
+
+
+class ProductViewSet(BaseViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
-class LessonViewSet(viewsets.ModelViewSet):
+class LessonViewSet(BaseViewSet):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(BaseViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 

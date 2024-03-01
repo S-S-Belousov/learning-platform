@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from .models import Group, Lesson, Product
@@ -47,13 +46,11 @@ class ProductStatsSerializer(serializers.ModelSerializer):
         max_group_size = obj.max_group_size
         total_groups = obj.group_set.count()
         total_group_capacity = max_group_size * total_groups
-        if total_group_capacity == 0:
-            return 0
-        return round(total_students / total_group_capacity * 100, 2)
+        return (round(total_students / total_group_capacity * 100, 2)
+                if total_group_capacity != 0 else 0)
 
     def get_product_purchase_percentage(self, obj):
-        total_users = User.objects.count()
-        if total_users == 0:
-            return 0
+        total_users = obj.creator.student_set.count()
         access_count = obj.access_count()
-        return round(access_count / total_users * 100, 2)
+        return (round(access_count / total_users * 100, 2)
+                if total_users != 0 else 0)
