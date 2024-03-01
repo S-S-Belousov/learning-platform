@@ -13,11 +13,15 @@ git clone https://github.com/S-S-Belousov/learning-platform.git
 ```bash
 pip install -r requirements.txt
 ```
-3. Выполните миграции:
+3. Создайте миграции:
+```bash
+python manage.py makemigrations
+```
+4. Выполните миграции:
 ```bash
 python manage.py migrate
 ```
-4. Запустите сервер:
+5. Запустите сервер:
 ```bash
 python manage.py runserver
 ```
@@ -76,6 +80,10 @@ python manage.py runserver
 
 **DELETE /api/groups/{group_id}/**
 Удаляет конкретную группу.
+
+# Статистика продуктов (Stats)
+**GET /api/stats/**
+Получить статистику по продуктам.
 
 # Аутентификация
 **POST /api/login/**
