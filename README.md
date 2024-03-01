@@ -33,7 +33,7 @@ python manage.py runserver
 
 ## Описание API проекта
 
-# Продукты (Products)
+## Продукты (Products)
 **GET /api/products/**
 Возвращает список всех продуктов на платформе.
 
@@ -49,7 +49,7 @@ python manage.py runserver
 **DELETE /api/products/{product_id}/**
 Удаляет конкретный продукт.
 
-# Уроки (Lessons)
+## Уроки (Lessons)
 **GET /api/lessons/**
 Возвращает список всех уроков.
 
@@ -65,7 +65,7 @@ python manage.py runserver
 **DELETE /api/lessons/{lesson_id}/**
 Удаляет конкретный урок.
 
-# Группы (Groups)
+## Группы (Groups)
 **GET /api/groups/**
 Возвращает список всех групп.
 
@@ -81,11 +81,11 @@ python manage.py runserver
 **DELETE /api/groups/{group_id}/**
 Удаляет конкретную группу.
 
-# Статистика продуктов (Stats)
+## Статистика продуктов (Stats)
 **GET /api/stats/**
 Получить статистику по продуктам.
 
-# Аутентификация
+## Аутентификация
 **POST /api/login/**
 Аутентифицирует пользователя и возвращает токен доступа.
 
