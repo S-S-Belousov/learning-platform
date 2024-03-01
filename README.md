@@ -7,7 +7,7 @@ Learning Platform - это веб-приложение для обучения �
 1. Клонируйте репозиторий:
 
 ```bash
-git clone https://github.com/yourusername/learning-platform.git
+git clone https://github.com/S-S-Belousov/learning-platform.git
 ```
 2. Установите зависимости:
 ```bash
