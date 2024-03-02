@@ -1,18 +1,17 @@
-from django.db.models import Count
 from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Group, Lesson, Product
+from .permissions import IsProductOwnerOrAdmin
 from .serializers import (GroupSerializer, LessonSerializer, ProductSerializer,
                           ProductStatsSerializer)
 
 
 class ProductStatsViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Product.objects.annotate(
-        num_students=Count('group__students')
-        ).all()
+    queryset = Product.objects.all()
     serializer_class = ProductStatsSerializer
 
 
@@ -23,14 +22,20 @@ class BaseViewSet(viewsets.ModelViewSet):
 class ProductViewSet(BaseViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated, IsProductOwnerOrAdmin]
 
-    def perform_create(self, serializer):
-        instance = serializer.save()
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        instance = serializer.instance
         instance.distribute_users_to_groups()
-
-    def perform_update(self, serializer):
-        instance = serializer.save()
-        instance.distribute_users_to_groups()
+        headers = self.get_success_headers(serializer.data)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+            )
 
 
 class LessonViewSet(BaseViewSet):
